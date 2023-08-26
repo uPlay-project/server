@@ -8,7 +8,7 @@ const albumSchema = new Schema(
       required: [true, "total track is required."],
     },
     image: {
-      type: [String],
+      type: String,
       required: [true, "Image is required."],
     },
     title: {
@@ -18,9 +18,7 @@ const albumSchema = new Schema(
     release_date: {
       type: Number,
     },
-    release_date_precision: {
-      type: Number,
-    },
+   
     genre: {
       type: [String],
     },

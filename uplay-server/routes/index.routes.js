@@ -18,4 +18,7 @@ router.post("/upload", fileUploader.single("imageUrl"), isAuthenticated, (req, r
   res.json({ fileUrl: req.file.path });
 });
 
+
+
+
 module.exports = router;

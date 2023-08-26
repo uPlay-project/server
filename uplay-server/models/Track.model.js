@@ -20,12 +20,7 @@ const trackSchema = new Schema(
     release_date: {
       type: String,
     },
-    release_date_precision: {
-      type: Number,
-    },
-
-  
-    
+   
     duration: {
       type: Number,
     },
@@ -37,10 +32,6 @@ const trackSchema = new Schema(
     //   },
     // ],
     genre: {
-      type: String,
-    },
-
-    preview_url: {
       type: String,
     },
 

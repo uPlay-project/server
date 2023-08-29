@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
 const playlistSchema = new Schema(
   {
     description: {
@@ -16,26 +15,24 @@ const playlistSchema = new Schema(
     },
     user: [
       {
-        type: Schema.Types.objectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
       },
     ],
     filename: {
       type: String,
     },
-
     popularity: {
       type: Number,
     },
     track: [
       {
-        type: Schema.Types.objectId,
+        type: Schema.Types.ObjectId,
         ref: "Track",
       },
-    ]
+    ],
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );

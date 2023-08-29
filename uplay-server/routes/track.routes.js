@@ -5,67 +5,49 @@ const fileUploader = require("../config/cloudinary.config");
 const { isAuthenticated } = require("../middlewares/jwt.middleware");
 const multer = require("multer");
 
-//configure Multer for handling track file uploads
+
+
+// Define storage for uploaded songs
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+      cb(null, 'uploads/'); // Where to store the uploaded files
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        uniqueSuffix +
-        "." +
-        file.originalname.split(".").pop()
-    );
-  },
+      cb(null, file.originalname); // Use the original file name
+  }
 });
 
-const trackupload = multer({ storage: storage });
+// Create a Multer instance
+const upload = multer({ storage: storage });
 
-// post route for track multiple upload
-router.post(
-  "/track",
-  trackupload.array("tracks", 10),
-  fileUploader.single("filename"),
-  isAuthenticated,
+
+router.post("/track",  upload.single("mp3file"),
+
   async (req, res, next) => {
     try {
-      if (!req.files || req.files.length === 0) {
+      if (!req.file) {
         return res.status(400).send("No files uploaded.");
       }
-
-      //now create album
+      console.log("show req,file", req.file);
       const {
-        lyrics,
-        popularity,
-
-        filename,
-        release_date,
         duration,
-        genre,
         track_number,
+        name,
+        artist,
       } = req.body;
-
+      
+      console.log("show req.body", req.body);
       const createdTrackDB = await Track.create({
-        lyrics,
-        popularity,
-        image,
-        filename,
-        release_date,
+        filename: req.file.path,
         duration,
-        genre,
         track_number,
+        name,
+        artist,
       });
       res.status(201).json({ createdTrackDB });
-      //   res.json({ fileupload: req.file.path });
+      console.log("show created track", createdTrackDB);
     } catch (err) {
-      console.log(
-        "====through Track  error ====there we go==>",
-        err
-      );
+      console.log("====through Track  error ====there we go==>", err);
     }
   }
 );

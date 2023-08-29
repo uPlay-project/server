@@ -22,12 +22,13 @@ res.status(201).json({ getAlbumDb });
 router.post(
   "/album",
   fileUploader.single("image"),
-  isAuthenticated,
   async (req, res, next) => {
     try {
-      if (!req.files) {
+      if (!req.file) {
         return res.status(400).send("No files uploaded.");
+      
       }
+      console.log("show req.file", req.file)
 
       // Create a new album record in the database
       const {
@@ -36,24 +37,24 @@ router.post(
         release_date,
         genre,
         popularity,
-        artist,
         album_type,
        
       } = req.body;
-
+console.log("show req erro", req.body)
       const createAlbumDB = await Album.create({
         total_tracks,
         title,
         release_date,
         genre,
         popularity,
-        artist,
+        artist:[],
         album_type,
         image: req.file.path,
         track: []
     
       });
       res.status(201).json({ createAlbumDB });
+      console.log("show create album",createAlbumDB )
       //   res.json({ fileupload: req.file.path });
     } catch (err) {
       console.log(

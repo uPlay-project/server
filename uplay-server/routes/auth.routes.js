@@ -6,7 +6,7 @@ const saltRounds = 10;
 const { isAuthenticated } = require("../middlewares/jwt.middleware");
 
 router.post("/signup", (req, res, next) => {
-  const { firstName, lastName, email, password, state, country } = req.body;
+  const {  username, email, password, state, country } = req.body;
 
   if (email === "" || password === "") {
     res.status(400).json({ message: "Provide emailƒ and password" });
@@ -32,8 +32,7 @@ router.post("/signup", (req, res, next) => {
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPasswword = bcrypt.hashSync(password, salt);
       return User.create({
-        firstName,
-        lastName,
+        username,
         email,
         password: hashedPasswword,
         state,
@@ -43,8 +42,7 @@ router.post("/signup", (req, res, next) => {
 
     .then((registerUser) => {
       const {
-        firstName,
-        lastName,
+        username,
         email,
         password: hashedPasswword,
         state,
@@ -52,8 +50,7 @@ router.post("/signup", (req, res, next) => {
       } = registerUser;
 
       const newUser = {
-        firstName,
-        lastName,
+        username,
         email,
         password: hashedPasswword,
         state,
@@ -90,8 +87,8 @@ router.post("/login", (req, res, next) => {
       );
 
       if (correctPassword) {
-        const { _id, firstName, lastName, email, state, country } = foundUserDB;
-        const payload = { _id, firstName, lastName, email, state, country };
+        const { _id, username, email, state, country } = foundUserDB;
+        const payload = { _id, username, email, state, country };
 
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",

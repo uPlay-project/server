@@ -16,7 +16,7 @@ const albumSchema = new Schema(
       required: [true, "title is required."],
     },
     release_date: {
-      type: Number,
+      type: String,
     },
    
     genre: {

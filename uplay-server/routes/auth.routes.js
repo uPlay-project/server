@@ -63,7 +63,7 @@ router.post("/signup", (req, res, next) => {
     })
 
     .catch((error) => {
-      console.log("===showRegisterError==>", error);
+      console.log("===showRegisterError innit==>", error);
     });
 });
 

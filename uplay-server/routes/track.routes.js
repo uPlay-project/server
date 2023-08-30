@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.post("/track",  upload.single("mp3file"),
+router.post("/track",  fileUploader.single("mp3file"),
 
   async (req, res, next) => {
     try {
@@ -35,7 +35,7 @@ router.post("/track",  upload.single("mp3file"),
         name,
         artist,
       } = req.body;
-      
+      console.log("show req.file.path", req.file.path);
       console.log("show req.body", req.body);
       const createdTrackDB = await Track.create({
         filename: req.file.path,

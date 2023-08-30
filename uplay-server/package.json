@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "build": "echo \"No build specified\" && exit 1",
-    "test": "echo \"No test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
 
   "repository": {

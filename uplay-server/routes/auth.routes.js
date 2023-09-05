@@ -5,75 +5,88 @@ const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 const { isAuthenticated } = require("../middlewares/jwt.middleware");
 
-router.post("/signup", (req, res, next) => {
-  const {  username, email, password, state, country } = req.body;
 
-  if (email === "" || password === "") {
-    res.status(400).json({ message: "Provide emailƒ and password" });
-    return;
+
+function isGmailOrYahooEmail(email) {
+  const gmailPattern = /@(gmail\.com|googlemail\.com)$/i;
+  const yahooPattern = /@(yahoo\.com|yahoo\.co\.[a-z]{2})$/i;
+
+  if (gmailPattern.test(email)) {
+    return 'Gmail';
+  } else if (yahooPattern.test(email)) {
+    return 'Yahoo Mail';
+  } else {
+    return 'Other';
   }
+}
 
-  const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-  if (!passwordRegex.test(password)) {
-    res.status(400).json({
-      message:
-        "Password must have at least 6 characts and contain at least one number, one lowercase and one uppercase letter.",
-    });
-    return;
-  }
 
-  User.findOne({ email })
-    .then((foundUserDB) => {
-      if (foundUserDB) {
-        res.status(400).json({ message: "User already exist" });
-        return;
-      }
+router.post("/signup", async (req, res, next) => {
+  try {
+    const { username, email, password, state, country } = req.body;
 
-      const salt = bcrypt.genSaltSync(saltRounds);
-      const hashedPasswword = bcrypt.hashSync(password, salt);
-      return User.create({
-        username,
-        email,
-        password: hashedPasswword,
-        state,
-        country,
+    if (!email || !password || !username) {
+      return res.status(400).json({ message: "Please provide email, username, and password" });
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    const emailType = isGmailOrYahooEmail(email);
+
+    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message: "Password must have at least 6 characters and include at least one number, one lowercase letter, and one uppercase letter.",
       });
-    })
+    }
 
-    .then((registerUser) => {
-      const {
-        username,
-        email,
-        password: hashedPasswword,
-        state,
-        country,
-      } = registerUser;
+    const foundUserDB = await User.findOne({ email });
+    if (foundUserDB) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-      const newUser = {
-        username,
-        email,
-        password: hashedPasswword,
-        state,
-        country,
-      };
-      res.status(201).json({ newUser: newUser });
-    })
-
-    .catch((error) => {
-      console.log("===showRegisterError==>", error);
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    const registerUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      state,
+      country,
     });
+
+    const newUser = {
+      username,
+      email,
+      password: hashedPassword,
+      state,
+      country,
+    };
+
+    res.status(201).json({ newUser });
+  } catch (error) {
+    console.error("Error during user registration:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 router.post("/login", (req, res, next) => {
-  const { email, password } = req.body;
+  const {username, email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "Provide email and password" });
+  if (!(email || username) || !password) {
+    return res.status(400).json({ message: "Provide email or username and password" });
+  }
+  let check;
+  if(email){
+    check = {email};
+  }else{
+    check = {username}
   }
 
-  User.findOne({
-    email,
-  })
+  User.findOne(check)
     .then((foundUserDB) => {
       if (!foundUserDB) {
         res.status(401).json({

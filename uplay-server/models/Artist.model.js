@@ -8,7 +8,7 @@ const artistSchema = new Schema(
 
     genre: {
       type: [String],
-      required: [true, "description is required."],
+      enum: ["Rock", "Hip hop", "Pop Music", "Country music" ,"Punk rock","Christian/Gospel"," Indie rock", "Techno", "New wave", "Instrumental", "Reggae", "Rhythm", "Blue" ]
     },
     image: {
       type: [String],
@@ -21,7 +21,7 @@ const artistSchema = new Schema(
    
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
+    
     timestamps: true,
   }
 );

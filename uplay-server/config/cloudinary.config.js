@@ -9,12 +9,18 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET
 });
 
-const  storage = new CloudinaryStorage({
+
+
+
+const storage = new CloudinaryStorage({
     cloudinary,
     params: {
+        resource_type: 'auto',
         allowed_formats: ["jpg","png", "jpeg", "mp3"],
-        folder: "user-gallery"
+        folder: "uPlay"
     }
 }) ;
+
+
 
 module.exports = multer({storage});

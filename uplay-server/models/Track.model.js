@@ -15,7 +15,6 @@ const trackSchema = new Schema(
     artist: {
       type: String,
     },
-  
 
     track_number: {
       type: Number,

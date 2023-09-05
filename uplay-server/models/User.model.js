@@ -18,10 +18,10 @@ const userSchema = new Schema(
       required: [true, "Password is required."],
     },
 
-    // userType: {
-    //   type: String,
-    //   required: true,
-    // },
+    username: {
+      type: String,
+      required: true,
+    },
     state: {
       type: String,
       required: true,

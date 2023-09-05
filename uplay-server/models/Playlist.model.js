@@ -13,18 +13,7 @@ const playlistSchema = new Schema(
     name: {
       type: String,
     },
-    user: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    filename: {
-      type: String,
-    },
-    popularity: {
-      type: Number,
-    },
+  
     track: [
       {
         type: Schema.Types.ObjectId,

@@ -21,6 +21,7 @@ const albumSchema = new Schema(
    
     genre: {
       type: [String],
+      enum: ["Rock", "Hip hop", "Pop Music", "Country music" ,"Punk rock","Christian/Gospel"," Indie rock", "Techno", "New wave", "Instrumental", "Reggae", "Rhythm", "Blue" ]
     },
     popularity: {
       type: Number,

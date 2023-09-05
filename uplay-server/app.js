@@ -29,6 +29,12 @@ app.use("/api", playlistRoutes);
 
 const albumRoutes = require("./routes/album.routes");
 app.use("/api", albumRoutes);
+
+const artistRoutes = require("./routes/artist.routes");
+app.use("/api", artistRoutes);
+
+// const spotifyRoutes = require("./routes/spotify.routes");
+// app.use("/spotify", spotifyRoutes);
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

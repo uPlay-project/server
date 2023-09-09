@@ -7,7 +7,7 @@ const playlistSchema = new Schema(
       required: [true, "description is required."],
     },
     image: {
-      type: [String],
+      type: String,
       required: [true, "Image is required."],
     },
     name: {

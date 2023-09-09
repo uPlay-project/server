@@ -11,6 +11,7 @@ const express = require("express");
 
 const app = express();
 
+
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
@@ -32,6 +33,14 @@ app.use("/api", albumRoutes);
 
 const artistRoutes = require("./routes/artist.routes");
 app.use("/api", artistRoutes);
+
+
+const libraryRoutes = require("./routes/library.routes");
+app.use("/api", libraryRoutes);
+
+const searchRoutes = require("./routes/searchbar.routes");
+app.use("/api", searchRoutes)
+
 
 // const spotifyRoutes = require("./routes/spotify.routes");
 // app.use("/spotify", spotifyRoutes);

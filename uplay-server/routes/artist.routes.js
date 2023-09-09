@@ -8,7 +8,7 @@ const { isAuthenticated } = require("../middlewares/jwt.middleware");
 const mongoose = require('mongoose');
 
 
-// Create a new artist
+
 router.post("/artist", fileUploader.single("image"), async (req, res, next) => {
   try {
     if (!req.file) {
@@ -25,7 +25,7 @@ router.post("/artist", fileUploader.single("image"), async (req, res, next) => {
   }
 });
 
-// Get all artists
+
 router.get("/artist", async (req, res, next) => {
   try {
     const artists = await Artist.find();
@@ -36,7 +36,7 @@ router.get("/artist", async (req, res, next) => {
   }
 });
 
-// Get artist by ID
+
 router.get("/artist/:id", async (req, res, next) => {
   try {
     const artistId = req.params.id;
@@ -54,7 +54,7 @@ router.get("/artist/:id", async (req, res, next) => {
   }
 });
 
-// Update artist by ID
+
 router.put("/artist/:id", async (req, res, next) => {
   try {
     const artistId = req.params.id;
@@ -96,27 +96,29 @@ router.delete("/artist/:id", async (req, res, next) => {
 });
 
 
-router.get("/artist/:id/album", async (req, res) => {
-    try {
-      const {artistId} = req.params.id
-      if (!mongoose.Types.ObjectId.isValid(req.params.artistId)) {
-        return res.status(400).json({ error: "Invalid artist ID" });
-      }
-  
 
-    //   const artistId = req.params.artistId;
-      const albums = await Album.find({ artist: artistId });
-  
-      if (!albums || albums.length === 0) {
-        return res.status(404).json({ message: "No albums found for this artist" });
-      }
-  
-      res.status(200).json({ albums });
-    } catch (error) {
-      console.error("Error fetching artist albums:", error);
-      res.status(500).json({ error: "Internal server error" });
+
+router.get("/artist/:artistId/album", async (req, res) => {
+  try {
+    const { artistId } = req.params;
+
+    
+    const artist = await Artist.findById(artistId).populate("album");
+
+    if (!artist) {
+      return res.status(404).json({ error: "Artist not found" });
     }
-  });
+
+    
+    const albums = artist.albums;
+    res.json({ albums });
+  } catch (error) {
+    console.error("Error fetching artist's albums:", error);
+    res.status(500).json({ error: "Error fetching artist's albums" });
+  }
+});
+
+
 
 module.exports = router;
 

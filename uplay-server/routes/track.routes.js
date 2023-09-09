@@ -66,6 +66,8 @@ router.get('/audio/:id', async (req, res) => {
   }
 });
 
+
+
 router.put("/track/:id", async (req, res, next) => {
   try {
     const trackId = req.params.id;
@@ -80,7 +82,8 @@ router.put("/track/:id", async (req, res, next) => {
       duration,
       artist,
       track_number,
-      filename
+      filename,
+      album
     } = req.body;
 
  
@@ -91,7 +94,8 @@ router.put("/track/:id", async (req, res, next) => {
         duration,
         artist,
         track_number,
-        filename
+        filename, 
+        album
       },
       { new: true }
     );
@@ -106,6 +110,11 @@ router.put("/track/:id", async (req, res, next) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+
+
+
 
 router.delete("/track/:id", async (req, res, next)=> {
   try {

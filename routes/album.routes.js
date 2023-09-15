@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Album = require("../models/Album.model");
 const Track = require("../models/Track.model"); 
+const Artist = require("../models/Artist.model"); 
 const fileUploader = require("../config/cloudinary.config");
-const { isAuthenticated } = require("../middlewares/jwt.middleware");
+const { isAuthenticated, isAdmin } = require("../middlewares/jwt.middleware");
 
 const mongoose = require('mongoose');
 
@@ -57,7 +58,8 @@ router.post(
         trackId,
         artist,
       } = req.body;
-
+      
+console.log(" req.body",  req.body)
       const track = await Track.findById(trackId);
 
       if (!track) {
@@ -75,6 +77,10 @@ router.post(
         image: req.file.path,
         track: [track],
       });
+    
+const updateArtist =  await Artist.findById(artist)
+updateArtist.album.push(album._id)
+await updateArtist.save()
 
       res.status(201).json({ album });
     } catch (err) {

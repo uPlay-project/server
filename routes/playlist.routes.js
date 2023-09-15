@@ -81,7 +81,7 @@ router.post('/create', fileUploader.single('image'),isAuthenticated, async (req,
 
 
 
-router.get('/all', async (req, res, next) => {
+router.get('/playlist/all', async (req, res, next) => {
   try {
     const playlists = await Playlist.find()
     res.status(200).json({ all: playlists });

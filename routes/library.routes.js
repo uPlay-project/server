@@ -124,7 +124,9 @@ router.post("/add", isAuthenticated, async (req, res) => {
 router.post("/remove/:albumId", async (req, res) => {
   try {
      const albumId = req.params.albumId;
-    const { _id } = req.payload;
+   // const { _id } = req.payload;
+   console.log("req.payload!!!!!", req.payload)
+   const _id = req.payload._id
     const user = await User.findById(_id);
 
     if (!user) {
@@ -133,7 +135,7 @@ router.post("/remove/:albumId", async (req, res) => {
 
     const albumIndex = user.library.indexOf(albumId);
     console.log("albumIndex", albumIndex)
-    
+
     if (albumIndex === -1) {
       return res.status(404).json({ error: "Album not found in user's library" });
     }

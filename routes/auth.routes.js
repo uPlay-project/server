@@ -21,6 +21,29 @@ function isGmailOrYahooEmail(email) {
 }
 
 
+router.get('/profile/:id', async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+
+    
+    const userProfile = await User.findById(userId);
+
+    if (!userProfile) {
+  
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+
+    res.status(200).json({ user: userProfile });
+  } catch (error) {
+ 
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
 router.post("/signup", async (req, res, next) => {
   try {
     const { username, email, password, state, country } = req.body;
@@ -78,11 +101,37 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-// Login Route: User login and JWT token generation
+
+
+router.put('/edit/profile/:id', async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const { username, email, password, state, country } = req.body;
+
+    // Construct an object with the updated user profile fields
+    const updatedUserData = { username, email, password, state, country };
+
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
+  } catch (err) {
+    console.error('Error during profile update:', err);
+    next(err);
+  }
+});
+
+
+
+
 router.post("/login", (req, res, next) => {
   const { username, email, password } = req.body;
 
-  // Validate required fields
+
   if (!(email || username) || !password) {
     return res.status(400).json({ message: "Provide email or username and password" });
   }
@@ -128,7 +177,7 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-// Verify Route: Protected route for user authentication
+
 router.get("/verify", isAuthenticated, (req, res, next) => {
   res.status(200).json(req.payload);
 });

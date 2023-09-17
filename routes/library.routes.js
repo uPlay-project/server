@@ -48,24 +48,6 @@ router.get("/username/:username",isAuthenticated, async (req, res) => {
 
 
 
-// // GET user data by username
-// router.get("/username/:username", isAuthenticated,  async (req, res) => {
-//   try {
-//     const { username } = req.params; // Get the username from the route parameter
-
-//     const user = await User.findOne({ username }); // Find the user by username
-
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     // Send the user data as JSON response
-//     res.json({ user });
-//   } catch (error) {
-//     console.error("Error fetching user data:", error);
-//     res.status(500).json({ error: "Error fetching user data" });
-//   }
-// });
 
 
 router.get("/recently-added", isAuthenticated, async (req, res) => {

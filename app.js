@@ -36,7 +36,7 @@ app.use("/api", artistRoutes);
 
 
 const libraryRoutes = require("./routes/library.routes");
-app.use("/api", libraryRoutes);
+app.use("/library", libraryRoutes);
 
 const searchRoutes = require("./routes/searchbar.routes");
 app.use("/api", searchRoutes)

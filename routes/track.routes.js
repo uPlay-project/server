@@ -20,7 +20,7 @@ router.get("/track", async (req, res, next) => {
 
 
 
-router.post("/track",  fileUploader.single('mp3file'),async (req, res, next) => {
+router.post("/track",  fileUploader.single('mp3file'), async (req, res, next) => {
   try {
     if (!req.file) {
       return res.status(400).send("No files uploaded.");

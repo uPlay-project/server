@@ -69,45 +69,13 @@ router.delete("/users/:username/image", async (req, res) => {
     await user.save();
     res.status(200).json({ message: "Profile image deleted successfully" });
   } catch (error) {
-    console.error("Error deleting user image:", error);
+    console.error("Error deleting user images:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 
 
-
-
-
-
-// router.post("/upload", fileUploader.single("image"), (req, res, next) => {
- 
-//   if (!req.file) {
-//     next(new Error("No file uploaded!"));
-//     return;
-//   }
-  
-
-//   res.json({ image: req.file.path });
-// });
-
-
-// router.get("/users", isAuthenticated, (req, res) => {
-//   console.log('payload', req.payload)
-//   res.status(200).json(req.payload)
-
-// })
-
-// router.put("/users", (req, res) => {
-//   const {_id, image } = req.body;
-
-//   User.findByIdAndUpdate(_id, { image }, {new: true})
-//     .then(updatedUser => {
-//       const {_id, image } = updatedUser
-//       res.json({ updatedUser:{_id,image } })
-//     })
-//     .catch(err => console.error(err))
-// })
 
 
 

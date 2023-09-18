@@ -93,54 +93,6 @@ await updateArtist.save()
 
 
 
-// router.post(
-//   "/album",
-//   fileUploader.single("image"),
-//   async (req, res, next) => {
-//     try {
-//       if (!req.file) {
-//         return res.status(400).send("No files uploaded.");
-//       }
-
- 
-//       const {
-//         total_tracks,
-//         title,
-//         release_date,
-//         genre,
-//         popularity,
-//         album_type,
-//         trackId, 
-//       } = req.body;
-
-      
-//       const track = await Track.findById(trackId);
-
-//       if (!track) {
-//         return res.status(404).json({ error: "Track not found" });
-//       }
-
-//       const album = await Album.create({
-//         total_tracks,
-//         title,
-//         release_date,
-//         genre,
-//         popularity,
-//         artist: [],
-//         album_type,
-//         image: req.file.path,
-//         track: [track], 
-//       });
-
-//       res.status(201).json({ album });
-//     } catch (err) {
-//       console.error("Error creating album:", err);
-//       res.status(500).json({ error: "Internal server error" });
-//     }
-//   }
-// );
-
-
 router.put("/album/:id", async (req, res, next) => {
   try {
     const albumId = req.params.id;

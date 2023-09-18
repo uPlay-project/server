@@ -37,46 +37,6 @@ router.post('/create', fileUploader.single('image'),isAuthenticated, async (req,
 });
 
 
-// router.post('/create', fileUploader.single('image'), async (req, res, next) => {
-//   try {
-//     const { description, name, trackIds } = req.body;
-
-
-//     if (!Array.isArray(trackIds) || trackIds.length === 0) {
-//       return res.status(400).json({ error: 'No valid tracks selected.' });
-//     }
-
-
-//     const areAllValidIds = trackIds.every((trackId) =>
-//       mongoose.Types.ObjectId.isValid(trackId)
-//     );
-
-//     if (!areAllValidIds) {
-//       return res.status(400).json({ message: 'One or more track IDs are not valid.' });
-//     }
-
-
-//     const selectedTracks = await Track.find({ _id: { $in: trackIds } });
-
-//     if (!selectedTracks || selectedTracks.length !== trackIds.length) {
-//       return res.status(400).json({ error: 'Not all selected tracks are valid.' });
-//     }
-
-  
-//     const createPlaylistDB = await Playlist.create({
-//       description,
-//       image: req.file.path,
-//       name,
-//       track: selectedTracks,
-//     });
-
-//     res.status(201).json({ playlist: createPlaylistDB });
-//     console.log('Created playlist:', createPlaylistDB);
-//   } catch (error) {
-//     console.error('Error creating playlist:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
 
 
 

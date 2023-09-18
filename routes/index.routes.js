@@ -69,7 +69,7 @@ router.delete("/users/:username/image", async (req, res) => {
     await user.save();
     res.status(200).json({ message: "Profile image deleted successfully" });
   } catch (error) {
-    console.error("Error deleting user image:", error);
+    console.error("Error deleting user images:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });

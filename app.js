@@ -42,6 +42,13 @@ const searchRoutes = require("./routes/searchbar.routes");
 app.use("/api", searchRoutes)
 
 
+
+const appactivityRoutes = require("./routes/appactivity.routes");
+app.use("/activity", appactivityRoutes)
+
+const streamRoutes = require("./routes/streaming.routes");
+app.use("/stream", streamRoutes)
+
 // const spotifyRoutes = require("./routes/spotify.routes");
 // app.use("/spotify", spotifyRoutes);
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
